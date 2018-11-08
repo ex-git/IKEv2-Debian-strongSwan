@@ -18,3 +18,6 @@ For iOS and Mac profile, set encryption algorithm and integrity algorithm as bel
           <key>LifeTimeInMinutes</key>
           <integer>1440</integer>
           </dict>
+
+
+If you need to open port 80 and 443 for web service, need to uncomment two lines in the scripts or manully added iptables rules.
