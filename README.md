@@ -21,3 +21,7 @@ For iOS and Mac profile, set encryption algorithm and integrity algorithm as bel
 
 
 If you need to open port 80 and 443 for web service, need to uncomment two lines in the scripts or manully added iptables rules.
+
+If you encounter error connecting to the server, run real-time logs and see if you missing any things.
+
+          tail -f /var/log/syslog
