@@ -7,9 +7,26 @@
 # ./setup.sh
 
 sh -c 'printf "deb http://deb.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list'
-apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true upgrade 
+apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true upgrade -y
 apt autoremove -y
 apt -o Acquire::ForceIPv4=true -t stretch-backports install strongswan certbot iptables iptables-persistent -y
+
+echo
+echo "--- enable ipv4 forward and disable ipv6 ---"
+echo
+
+echo 'net.ipv4.ip_forward = 1
+net.ipv4.ip_no_pmtu_disc = 1
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.send_redirects = 0
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+' >> /etc/sysctl.conf
+
+sysctl -p
+
 read -p "Hostname for VPN (default: ${DEFAULTVPNHOST}): " VPNHOST
 VPNHOST=${VPNHOST:-$DEFAULTVPNHOST}
 read -p "Email address for sysadmin (e.g. j.bloggs@example.com): " EMAILADDR
@@ -33,7 +50,9 @@ SSHPORT=${SSHPORT:-22}
 echo
 
 VPNIPPOOL="10.20.10.0/24"
-ETH0ORSIMILAR = $(ip -o link show | awk '!/00:00:00:00:00:00/' | awk -F': ' '{print $2}')
+
+#ETH0ORSIMILAR = ${ip -o link show | awk '!/00:00:00:00:00:00/' | awk -F': ' '{print $2}'}
+ETH0ORSIMILAR=$(ip route get 1.1.1.1 | awk -- '{printf $5}')
 
 echo "config setup
   strictcrlpolicy=yes
@@ -70,22 +89,6 @@ ${VPNUSERNAME} : EAP \""${VPNPASSWORD}"\"
 " > /etc/ipsec.secrets
 
 ipsec restart
-
-echo
-echo "--- enable ipv4 forward and disable ipv6 ---"
-echo
-
-echo 'net.ipv4.ip_forward = 1
-net.ipv4.ip_no_pmtu_disc = 1
-net.ipv4.conf.all.rp_filter = 1
-net.ipv4.conf.all.accept_redirects = 0
-net.ipv4.conf.all.send_redirects = 0
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
-' >> /etc/sysctl.conf
-
-sysctl -p
 
 echo
 echo "--- Configuring firewall ---"
