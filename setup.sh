@@ -150,6 +150,14 @@ iptables -A FORWARD -j DROP
 
 iptables -L
 
-dpkg-reconfigure iptables-persistent
+#save current iptables rules
+#dpkg-reconfigure iptables-persistent
+iptables-save >/etc/iptables/rules.v4
+
+#enable BBR
+cat >> /etc/sysctl.conf << EOF
+net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+EOF
 
 echo "Done"
