@@ -118,10 +118,16 @@ iptables -A INPUT -m state --state INVALID -j DROP
 
 # rate-limit repeated new requests from same IP to any ports
 iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --set
-iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --update --seconds 5 --hitcount 10 -j DROP
+iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --update --seconds 5 --hitcount 100 -j DROP
 
 # accept (non-standard) SSH
 iptables -A INPUT -p tcp --dport $SSHPORT -j ACCEPT
+
+#Block SSH Brute Force Attacks with IPTables
+iptables -I INPUT -p tcp --dport $SSHPORT -i eth0 -m state --state NEW -m recent --set
+iptables -I INPUT -p tcp --dport $SSHPORT -i eth0 -m state --state NEW -m recent  --update --seconds 60 --hitcount 4 -j DROP
+
+#Open port for web http and https
 #iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 #iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 
