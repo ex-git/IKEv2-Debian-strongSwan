@@ -34,9 +34,9 @@ VPNHOST=${VPNHOST:-$DEFAULTVPNHOST}
 read -p "Email address for sysadmin (e.g. j.bloggs@example.com): " EMAILADDR
 read -p "VPN username: " VPNUSERNAME
 while true; do
-read -s -p "VPN password (no quotes, please): " VPNPASSWORD
+read -p "VPN password (no quotes, please): " VPNPASSWORD
 echo
-read -s -p "Confirm VPN password: " VPNPASSWORD2
+read -p "Confirm VPN password: " VPNPASSWORD2
 echo
 [ "$VPNPASSWORD" = "$VPNPASSWORD2" ] && break
 echo "Passwords didn't match -- please try again"
