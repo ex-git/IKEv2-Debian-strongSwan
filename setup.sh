@@ -1,17 +1,17 @@
 #!/bin/bash -e
 
-# tested in Debian 9
+# tested in Debian 10
 
 # == Then run this script
 # chmod u+x setup.sh
 # ./setup.sh
 
-sh -c 'printf "deb http://deb.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list'
+sh -c 'printf "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/stretch-backports.list'
 apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true upgrade -y
 apt autoremove -y
 
 #libcharon-extra-plugins is required, otherwise will receive "EAP-Identity request configured, but not supported" error
-apt -o Acquire::ForceIPv4=true -t stretch-backports install strongswan certbot iptables iptables-persistent libcharon-extra-plugins libstrongswan-extra-plugins -y
+apt -o Acquire::ForceIPv4=true -t buster-backports install strongswan certbot iptables iptables-persistent libcharon-extra-plugins libstrongswan-extra-plugins -y
 
 echo
 echo "--- enable ipv4 forward and disable ipv6 ---"
