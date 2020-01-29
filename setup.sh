@@ -6,7 +6,7 @@
 # chmod u+x setup.sh
 # ./setup.sh
 
-sh -c 'printf "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/stretch-backports.list'
+sh -c 'printf "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/buster-backports.list'
 apt-get -o Acquire::ForceIPv4=true update && apt-get -o Acquire::ForceIPv4=true upgrade -y
 apt autoremove -y
 
