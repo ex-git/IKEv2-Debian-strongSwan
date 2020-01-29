@@ -43,9 +43,9 @@ echo "Passwords didn't match -- please try again"
 done
 certbot certonly --non-interactive --agree-tos --standalone --preferred-challenges http --email $EMAILADDR -d $VPNHOST
 
-ln -f -s /etc/letsencrypt/live/$VPNHOST/cert.pem    /etc/ipsec.d/certs/cert.pem
+ln -f -s /etc/letsencrypt/live/$VPNHOST/cert.pem /etc/ipsec.d/certs/cert.pem
 ln -f -s /etc/letsencrypt/live/$VPNHOST/privkey.pem /etc/ipsec.d/private/privkey.pem
-ln -f -s /etc/letsencrypt/live/$VPNHOST/chain.pem   /etc/ipsec.d/cacerts/chain.pem
+ln -f -s /etc/letsencrypt/live/$VPNHOST/chain.pem /etc/ipsec.d/cacerts/chain.pem
 
 read -p "SSH log-in port (default: 22): " SSHPORT
 SSHPORT=${SSHPORT:-22}
