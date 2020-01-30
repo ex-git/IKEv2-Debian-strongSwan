@@ -157,8 +157,8 @@ iptables -A FORWARD -j DROP
 iptables -L
 
 #save current iptables rules
-#dpkg-reconfigure iptables-persistent
-iptables-save >/etc/iptables/rules.v4
+dpkg-reconfigure iptables-persistent
+#iptables-save >/etc/iptables/rules.v4
 
 #enable BBR
 cat >> /etc/sysctl.conf << EOF
