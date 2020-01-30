@@ -51,7 +51,7 @@ read -p "SSH log-in port (default: 22): " SSHPORT
 SSHPORT=${SSHPORT:-22}
 echo
 
-VPNIPPOOL="10.20.10.0/24"
+VPNIPPOOL="10.10.10.0/24"
 
 #ETH0ORSIMILAR = ${ip -o link show | awk '!/00:00:00:00:00:00/' | awk -F': ' '{print $2}'}
 ETH0ORSIMILAR=$(ip route get 1.1.1.1 | awk -- '{printf $5}')
