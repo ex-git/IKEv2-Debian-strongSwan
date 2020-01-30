@@ -124,8 +124,8 @@ iptables -I INPUT -i $ETH0ORSIMILAR -m state --state NEW -m recent --update --se
 iptables -A INPUT -p tcp --dport $SSHPORT -j ACCEPT
 
 #Block SSH Brute Force Attacks with IPTables
-iptables -I INPUT -p tcp --dport $SSHPORT -i eth0 -m state --state NEW -m recent --set
-iptables -I INPUT -p tcp --dport $SSHPORT -i eth0 -m state --state NEW -m recent  --update --seconds 60 --hitcount 4 -j DROP
+iptables -I INPUT -p tcp --dport $SSHPORT -i $ETH0ORSIMILAR -m state --state NEW -m recent --set
+iptables -I INPUT -p tcp --dport $SSHPORT -i $ETH0ORSIMILAR -m state --state NEW -m recent  --update --seconds 60 --hitcount 4 -j DROP
 
 #Open port for web http and https
 #iptables -A INPUT -p tcp --dport 80 -j ACCEPT
